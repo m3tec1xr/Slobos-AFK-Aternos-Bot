@@ -1,112 +1,25 @@
-const mineflayer = require('mineflayer');
-
-/**
- * AYARLAR: Senin paylaştığın tüm özellikler burada korunmuştur.
- */
-const settings = {
-    "server": {
-        "ip": "95.216.5.172",
-        "port": 34044,
-        "version": false,
-        "try-creative": false
+{
+  "server": {
+    "ip": "95.216.5.172",
+    "port": 34044,
+    "version": false,
+    "try-creative": false
+  },
+  "utils": {
+    "auto-auth": { "enabled": true, "password": "chalol78" },
+    "anti-afk": { "enabled": true, "sneak": true },
+    "chat-messages": {
+      "enabled": true,
+      "repeat": true,
+      "repeat-delay": 120,
+      "messages": ["Elif Trans", "Erdoğan Yalan", "Ege! Baba"]
     },
-    "utils": {
-        "auto-auth": { "enabled": true, "password": "chalol78" },
-        "anti-afk": { "enabled": true, "sneak": true },
-        "chat-messages": {
-            "enabled": true,
-            "repeat": true,
-            "repeat-delay": 120,
-            "messages": ["Elif Trans", "Erdoğan Yalan", "Ege! Baba"]
-        },
-        "auto-reconnect": true,
-        "auto-reconnect-delay": 10000
-    },
-    "movement": {
-        "enabled": true,
-        "circle-walk": { "enabled": true, "radius": 4, "speed": 3000 },
-        "look-around": { "enabled": true, "interval": 5000 }
-    }
-};
-
-/**
- * 17 GERÇEKÇİ BOT İSMİ
- */
-const botNames = [
-    "Arda_Gamer23", "KaanBey_", "MertEren_01", "Selin_Vibes", "EmirhanPvP",
-    "Zeynep_Craft", "Baturay_HD", "Deniz_Yilmaz", "Yigit_Efe99", "Defne_Games",
-    "Burak_Pro", "Melis_Blue", "Gokturk_06", "Eylul_Star", "Omer_Faruk_",
-    "Ceren_Sky", "Kerem_Baba"
-];
-
-function createBot(name, index) {
-    // Sunucu koruması ve işlemci yükü için her botu 10 saniye arayla sokar
-    setTimeout(() => {
-        const bot = mineflayer.createBot({
-            host: settings.server.ip,
-            port: settings.server.port,
-            username: name,
-            version: settings.server.version
-        });
-
-        console.log(`[${name}] Bağlantı kuruluyor...`);
-
-        bot.on('spawn', () => {
-            console.log(`[${name}] Sunucuya giriş yaptı.`);
-
-            // 1. OTOMATİK KAYIT/GİRİŞ
-            if (settings.utils["auto-auth"].enabled) {
-                const pass = settings.utils["auto-auth"].password;
-                bot.chat(`/register ${pass} ${pass}`);
-                setTimeout(() => bot.chat(`/login ${pass}`), 1500);
-            }
-
-            // 2. HAREKET (CIRCLE WALK)
-            if (settings.movement.enabled && settings.movement["circle-walk"].enabled) {
-                let angle = 0;
-                setInterval(() => {
-                    if (!bot.entity) return;
-                    const radius = settings.movement["circle-walk"].radius;
-                    const x = Math.cos(angle) * radius;
-                    const z = Math.sin(angle) * radius;
-                    bot.lookAt(bot.entity.position.offset(x, 0, z));
-                    bot.setControlState('forward', true);
-                    angle += 0.2;
-                }, 100);
-            }
-
-            // 3. ANTI-AFK (SNEAK)
-            if (settings.utils["anti-afk"].enabled && settings.utils["anti-afk"].sneak) {
-                setInterval(() => {
-                    bot.setControlState('sneak', true);
-                    setTimeout(() => bot.setControlState('sneak', false), 500);
-                }, 5000);
-            }
-
-            // 4. OTOMATİK MESAJ
-            if (settings.utils["chat-messages"].enabled) {
-                setInterval(() => {
-                    const msgs = settings.utils["chat-messages"].messages;
-                    const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
-                    bot.chat(randomMsg);
-                }, settings.utils["chat-messages"]["repeat-delay"] * 1000);
-            }
-        });
-
-        // Hataları yakala (Botun çökmesini önler)
-        bot.on('error', (err) => console.log(`[${name}] Hata: ${err.message}`));
-        
-        bot.on('end', () => {
-            if (settings.utils["auto-reconnect"]) {
-                console.log(`[${name}] Bağlantı koptu. Tekrar deneniyor...`);
-                setTimeout(() => createBot(name, 0), settings.utils["auto-reconnect-delay"]);
-            }
-        });
-
-    }, index * 10000); 
+    "auto-reconnect": true,
+    "auto-reconnect-delay": 10000
+  },
+  "movement": {
+    "enabled": true,
+    "circle-walk": { "enabled": true, "radius": 4, "speed": 3000 },
+    "look-around": { "enabled": true, "interval": 5000 }
+  }
 }
-
-// 17 botun hepsini başlat
-botNames.forEach((name, index) => {
-    createBot(name, index);
-});
