@@ -26,42 +26,6 @@ let botState = {
   wasThrottled: false,
 };
 
-const botNames = [
-    "Arda_Gamer23", "KaanBey_", "MertEren_01", "Selin_Vibes", "EmirhanPvP",
-    "Zeynep_Craft", "Baturay_HD", "Deniz_Yilmaz", "Yigit_Efe99", "Defne_Games",
-    "Burak_Pro", "Melis_Blue", "Gokturk_06", "Eylul_Star", "Omer_Faruk_",
-    "Ceren_Sky", "Kerem_Baba"
-];
-
-function createBot(name, index) {
-    setTimeout(() => {
-        const bot = mineflayer.createBot({
-            host: settings.server.ip,
-            port: settings.server.port,
-            username: name,
-            version: settings.server.version
-        });
-
-        bot.on('spawn', () => {
-            console.log(`[${name}] Sunucuya girdi.`);
-            if (settings.utils["auto-auth"].enabled) {
-                const pass = settings.utils["auto-auth"].password;
-                bot.chat(`/register ${pass} ${pass}`);
-                setTimeout(() => bot.chat(`/login ${pass}`), 1500);
-            }
-            // Mesaj ve Hareket döngülerini başlat...
-        });
-
-        bot.on('error', (err) => console.log(`[${name}] Hata: ${err.message}`));
-        bot.on('end', () => {
-            console.log(`[${name}] Ayrıldı, reconnect yapılıyor...`);
-            setTimeout(() => createBot(name, 0), settings.utils["auto-reconnect-delay"]);
-        });
-    }, index * 10000);
-}
-
-botNames.forEach((name, index) => createBot(name, index));
-
 // Health check endpoint for monitoring
 app.get('/', (req, res) => {
   res.send(`
