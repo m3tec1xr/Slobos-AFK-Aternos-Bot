@@ -1,25 +1,75 @@
 {
+  "name": "AFK Bot System",
+  "bot-accounts": [
+    { "username": "Arda_Gamer23" },
+    { "username": "KaanBey_" },
+    { "username": "MertEren_01" },
+    { "username": "Selin_Vibes" },
+    { "username": "EmirhanPvP" },
+    { "username": "Zeynep_Craft" },
+    { "username": "Baturay_HD" },
+    { "username": "Deniz_Yilmaz" },
+    { "username": "Yigit_Efe99" },
+    { "username": "Defne_Games" },
+    { "username": "Burak_Pro" },
+    { "username": "Melis_Blue" },
+    { "username": "Gokturk_06" },
+    { "username": "Eylul_Star" },
+    { "username": "Omer_Faruk_" },
+    { "username": "Ceren_Sky" },
+    { "username": "Kerem_Baba" }
+  ],
   "server": {
     "ip": "95.216.5.172",
     "port": 34044,
-    "version": false,
+    "version": "",
     "try-creative": false
   },
   "utils": {
-    "auto-auth": { "enabled": true, "password": "chalol78" },
-    "anti-afk": { "enabled": true, "sneak": true },
+    "auto-auth": {
+      "enabled": true,
+      "password": "chalol78"
+    },
+    "anti-afk": {
+      "enabled": true,
+      "sneak": true
+    },
     "chat-messages": {
       "enabled": true,
       "repeat": true,
       "repeat-delay": 120,
-      "messages": ["Elif Trans", "Erdoğan Yalan", "Ege! Baba"]
+      "messages": [
+        "Elif Trans",
+        "Erdoğan Yalan",
+        "Ege! Baba"
+      ]
     },
+    "chat-log": true,
     "auto-reconnect": true,
-    "auto-reconnect-delay": 10000
+    "auto-reconnect-delay": 10000,
+    "max-reconnect-delay": 120000
   },
   "movement": {
     "enabled": true,
-    "circle-walk": { "enabled": true, "radius": 4, "speed": 3000 },
-    "look-around": { "enabled": true, "interval": 5000 }
+    "circle-walk": {
+      "enabled": true,
+      "radius": 4,
+      "speed": 3000
+    },
+    "look-around": {
+      "enabled": true,
+      "interval": 5000
+    },
+    "random-jump": {
+      "enabled": true,
+      "interval": 10000
+    }
+  },
+  "modules": {
+    "avoidMobs": true,
+    "combat": true,
+    "beds": false,
+    "chat": true,
+    "console-commands": true
   }
 }
