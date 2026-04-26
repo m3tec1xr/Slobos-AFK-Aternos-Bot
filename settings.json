@@ -1,75 +1,22 @@
 {
-  "name": "AFK Bot System",
-  "bot-accounts": [
-    { "username": "Arda_Gamer23" },
-    { "username": "KaanBey_" },
-    { "username": "MertEren_01" },
-    { "username": "Selin_Vibes" },
-    { "username": "EmirhanPvP" },
-    { "username": "Zeynep_Craft" },
-    { "username": "Baturay_HD" },
-    { "username": "Deniz_Yilmaz" },
-    { "username": "Yigit_Efe99" },
-    { "username": "Defne_Games" },
-    { "username": "Burak_Pro" },
-    { "username": "Melis_Blue" },
-    { "username": "Gokturk_06" },
-    { "username": "Eylul_Star" },
-    { "username": "Omer_Faruk_" },
-    { "username": "Ceren_Sky" },
-    { "username": "Kerem_Baba" }
-  ],
+  "name": "Minecraft-AFK-Bot",
   "server": {
     "ip": "95.216.5.172",
     "port": 34044,
-    "version": "",
-    "try-creative": false
+    "version": false
   },
+  "botNames": [
+    "Arda_Gamer23", "KaanBey_", "MertEren_01", "Selin_Vibes", "EmirhanPvP",
+    "Zeynep_Craft", "Baturay_HD", "Deniz_Yilmaz", "Yigit_Efe99", "Defne_Games",
+    "Burak_Pro", "Melis_Blue", "Gokturk_06", "Eylul_Star", "Omer_Faruk_",
+    "Ceren_Sky", "Kerem_Baba"
+  ],
   "utils": {
-    "auto-auth": {
-      "enabled": true,
-      "password": "chalol78"
-    },
-    "anti-afk": {
-      "enabled": true,
-      "sneak": true
-    },
+    "auto-auth": { "enabled": true, "password": "chalol78" },
     "chat-messages": {
       "enabled": true,
-      "repeat": true,
       "repeat-delay": 120,
-      "messages": [
-        "Elif Trans",
-        "Erdoğan Yalan",
-        "Ege! Baba"
-      ]
-    },
-    "chat-log": true,
-    "auto-reconnect": true,
-    "auto-reconnect-delay": 10000,
-    "max-reconnect-delay": 120000
-  },
-  "movement": {
-    "enabled": true,
-    "circle-walk": {
-      "enabled": true,
-      "radius": 4,
-      "speed": 3000
-    },
-    "look-around": {
-      "enabled": true,
-      "interval": 5000
-    },
-    "random-jump": {
-      "enabled": true,
-      "interval": 10000
+      "messages": ["Elif Trans", "Erdoğan Yalan", "Ege! Baba"]
     }
-  },
-  "modules": {
-    "avoidMobs": true,
-    "combat": true,
-    "beds": false,
-    "chat": true,
-    "console-commands": true
   }
 }
