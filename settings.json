@@ -1,11 +1,13 @@
 const mineflayer = require('mineflayer');
 
-// Senin paylaştığın settings.json içeriğini buraya entegre ediyoruz
+/**
+ * AYARLAR: Senin paylaştığın tüm özellikler burada korunmuştur.
+ */
 const settings = {
     "server": {
         "ip": "95.216.5.172",
         "port": 34044,
-        "version": "",
+        "version": false,
         "try-creative": false
     },
     "utils": {
@@ -27,7 +29,9 @@ const settings = {
     }
 };
 
-// 17 Gerçekçi Bot İsmi
+/**
+ * 17 GERÇEKÇİ BOT İSMİ
+ */
 const botNames = [
     "Arda_Gamer23", "KaanBey_", "MertEren_01", "Selin_Vibes", "EmirhanPvP",
     "Zeynep_Craft", "Baturay_HD", "Deniz_Yilmaz", "Yigit_Efe99", "Defne_Games",
@@ -36,13 +40,13 @@ const botNames = [
 ];
 
 function createBot(name, index) {
-    // Sunucu koruması için her botu 10 saniye arayla sokar
+    // Sunucu koruması ve işlemci yükü için her botu 10 saniye arayla sokar
     setTimeout(() => {
         const bot = mineflayer.createBot({
             host: settings.server.ip,
             port: settings.server.port,
             username: name,
-            version: settings.server.version || false
+            version: settings.server.version
         });
 
         console.log(`[${name}] Bağlantı kuruluyor...`);
@@ -50,17 +54,18 @@ function createBot(name, index) {
         bot.on('spawn', () => {
             console.log(`[${name}] Sunucuya giriş yaptı.`);
 
-            // --- 1. OTOMATİK KAYIT/GİRİŞ ---
+            // 1. OTOMATİK KAYIT/GİRİŞ
             if (settings.utils["auto-auth"].enabled) {
                 const pass = settings.utils["auto-auth"].password;
                 bot.chat(`/register ${pass} ${pass}`);
-                setTimeout(() => bot.chat(`/login ${pass}`), 1000);
+                setTimeout(() => bot.chat(`/login ${pass}`), 1500);
             }
 
-            // --- 2. HAREKET (CIRCLE WALK) ---
+            // 2. HAREKET (CIRCLE WALK)
             if (settings.movement.enabled && settings.movement["circle-walk"].enabled) {
                 let angle = 0;
                 setInterval(() => {
+                    if (!bot.entity) return;
                     const radius = settings.movement["circle-walk"].radius;
                     const x = Math.cos(angle) * radius;
                     const z = Math.sin(angle) * radius;
@@ -70,7 +75,7 @@ function createBot(name, index) {
                 }, 100);
             }
 
-            // --- 3. ANTI-AFK (SNEAK) ---
+            // 3. ANTI-AFK (SNEAK)
             if (settings.utils["anti-afk"].enabled && settings.utils["anti-afk"].sneak) {
                 setInterval(() => {
                     bot.setControlState('sneak', true);
@@ -78,7 +83,7 @@ function createBot(name, index) {
                 }, 5000);
             }
 
-            // --- 4. OTOMATİK MESAJ ---
+            // 4. OTOMATİK MESAJ
             if (settings.utils["chat-messages"].enabled) {
                 setInterval(() => {
                     const msgs = settings.utils["chat-messages"].messages;
@@ -88,19 +93,20 @@ function createBot(name, index) {
             }
         });
 
-        // Hata Yönetimi ve Otomatik Yeniden Bağlanma
+        // Hataları yakala (Botun çökmesini önler)
         bot.on('error', (err) => console.log(`[${name}] Hata: ${err.message}`));
+        
         bot.on('end', () => {
             if (settings.utils["auto-reconnect"]) {
-                console.log(`[${name}] Bağlantı bitti. 10sn sonra tekrar denenecek.`);
+                console.log(`[${name}] Bağlantı koptu. Tekrar deneniyor...`);
                 setTimeout(() => createBot(name, 0), settings.utils["auto-reconnect-delay"]);
             }
         });
 
-    }, index * 10000); // 10 saniye bekleme süresi
+    }, index * 10000); 
 }
 
-// Tüm listeyi başlat
+// 17 botun hepsini başlat
 botNames.forEach((name, index) => {
     createBot(name, index);
 });
